@@ -1,0 +1,38 @@
+server:
+  port: 8003
+
+spring:
+#  datasource:
+#    url: jdbc:sqlite::resource:db/user.sqlite
+#    driver-class-name: org.sqlite.JDBC
+#    # username: 选用 sqlite 数据库不需要配置此项
+#    # password: 选用 sqlite 数据库不需要配置此项
+#    # DDL建表语句
+#    schema: classpath:db/schema.sql
+#    # DML添加数据
+#    data: classpath:db/data.sql
+#    initialization-mode: always
+#    continue-on-error: true
+  datasource:
+    dynamic:
+      priary: master
+      strict: false
+      datasource:
+        master:
+          url: jdbc:sqlite::resource:db/user.sqlite
+          driver-class-name: org.sqlite.JDBC
+          # username: 选用 sqlite 数据库不需要配置此项
+          # password: 选用 sqlite 数据库不需要配置此项
+          continue-on-error: true
+          initialization-mode: always
+        slave_1:
+          driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
+          url: jdbc:mysql://10.83.1.2:3306/master_data_platform?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai  # 数据库的 JDBC URL
+          username: root
+          password: nscnsc
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.example.springbootsqlite.model
